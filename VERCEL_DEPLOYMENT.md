@@ -166,6 +166,10 @@ npm run dev
 **Error**: "DATABASE_URL is not defined"
 - **Fix**: Already fixed in `drizzle.config.ts`. Redeploy.
 
+**Error**: "Cannot find module '/var/task/api/storage-instance'"
+- **Fix**: Storage instance moved to `/server/storage-instance.ts` for proper module resolution
+- **Status**: ✅ Fixed - imports now use `../../server/storage-instance.js`
+
 ### API Returns 500 Error
 
 **Error**: "Failed to generate explanation"
