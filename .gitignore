@@ -2,4 +2,7 @@ node_modules
 .env
 .vercel
 *.log
-dist
+dist-e 
+# Environment files
+*.env
+*.env.*
