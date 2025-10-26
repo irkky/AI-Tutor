@@ -24,7 +24,8 @@ export class MemStorage implements IStorage {
   async createConversation(insertConversation: InsertConversation): Promise<Conversation> {
     const id = randomUUID();
     const conversation: Conversation = { 
-      ...insertConversation, 
+      ...insertConversation,
+      topic: insertConversation.topic || null,
       id,
       createdAt: new Date(),
     };
