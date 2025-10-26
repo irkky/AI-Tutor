@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { getStorage } from '../storage-instance';
+import { getStorage } from '../../server/storage-instance';
 import { generateExplanation } from '../../server/ai-service';
 import { z } from 'zod';
 
