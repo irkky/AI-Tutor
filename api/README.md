@@ -112,10 +112,10 @@ Deletes a conversation and its associated explanation.
 
 ## Storage
 
-The `storage-instance.ts` module provides a singleton instance of `MemStorage`:
+The storage singleton is located at `/server/storage-instance.ts` and provides a shared instance:
 
 ```typescript
-import { getStorage } from '../storage-instance';
+import { getStorage } from '../../server/storage-instance.js';
 
 const storage = getStorage();
 ```
