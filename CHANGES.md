@@ -6,8 +6,9 @@ This document summarizes all changes made to convert the application from Expres
 
 ### ✅ Files Added
 
-1. **`/api/storage-instance.ts`**
+1. **`/server/storage-instance.ts`** (Updated location)
    - Singleton storage instance for serverless functions
+   - Moved from `/api` to `/server` for proper module resolution
    - Ensures storage persists across function invocations within the same instance
 
 2. **`/api/conversations/index.ts`**
