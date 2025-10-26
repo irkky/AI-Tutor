@@ -81,6 +81,9 @@ export class MemStorage implements IStorage {
     const id = randomUUID();
     const explanation: Explanation = {
       ...insertExplanation,
+      definition: insertExplanation.definition || null,
+      codeExample: insertExplanation.codeExample || null,
+      summary: insertExplanation.summary || null,
       id,
       createdAt: new Date(),
     };
