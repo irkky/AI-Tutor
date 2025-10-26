@@ -24,7 +24,8 @@ export class MemStorage implements IStorage {
   async createConversation(insertConversation: InsertConversation): Promise<Conversation> {
     const id = randomUUID();
     const conversation: Conversation = { 
-      ...insertConversation, 
+      ...insertConversation,
+      topic: insertConversation.topic || null,
       id,
       createdAt: new Date(),
     };
@@ -80,6 +81,9 @@ export class MemStorage implements IStorage {
     const id = randomUUID();
     const explanation: Explanation = {
       ...insertExplanation,
+      definition: insertExplanation.definition || null,
+      codeExample: insertExplanation.codeExample || null,
+      summary: insertExplanation.summary || null,
       id,
       createdAt: new Date(),
     };

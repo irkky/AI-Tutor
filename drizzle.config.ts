@@ -1,14 +1,14 @@
 import { defineConfig } from "drizzle-kit";
 
-if (!process.env.DATABASE_URL) {
-  throw new Error("DATABASE_URL, ensure the database is provisioned");
-}
+// Make DATABASE_URL optional for Vercel builds
+// When deploying to Vercel without a database, this won't throw an error
+const databaseUrl = process.env.DATABASE_URL || "postgresql://placeholder";
 
 export default defineConfig({
   out: "./migrations",
   schema: "./shared/schema.ts",
   dialect: "postgresql",
   dbCredentials: {
-    url: process.env.DATABASE_URL,
+    url: databaseUrl,
   },
 });
