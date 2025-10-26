@@ -4,6 +4,25 @@
 
 An AI-powered educational tutoring application that provides structured, easy-to-understand explanations on coding, math, science, and AI/ML topics. The application uses Google's Gemini AI to generate comprehensive educational responses with definitions, step-by-step explanations, code examples, and summaries. Users can ask questions via a chat interface and access their conversation history.
 
+## 🚀 Deployment
+
+### Deploy to Vercel (Serverless)
+
+This application is ready to deploy to Vercel! See **[VERCEL_DEPLOYMENT.md](./VERCEL_DEPLOYMENT.md)** for complete deployment instructions.
+
+**Quick Deploy:**
+1. Push to GitHub
+2. Import to [Vercel](https://vercel.com/new)
+3. Add `GEMINI_API_KEY` environment variable
+4. Deploy! 🎉
+
+**Or run locally:**
+```bash
+npm install
+cp .env.example .env  # Add your GEMINI_API_KEY
+npm run dev           # Visit http://localhost:5001
+```
+
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
