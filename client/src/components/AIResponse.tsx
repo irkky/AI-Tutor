@@ -42,9 +42,11 @@ export function AIResponse({ question, explanation, topic, timestamp }: AIRespon
             <div className="space-y-3" data-testid="section-definition">
               <h3 className="text-lg font-semibold">Definition</h3>
               <div className="rounded-md bg-muted p-4">
-                <ReactMarkdown className="prose prose-sm max-w-none dark:prose-invert">
-                  {explanation.definition}
-                </ReactMarkdown>
+                <div className="prose prose-sm max-w-none dark:prose-invert">
+                  <ReactMarkdown>
+                    {explanation.definition}
+                  </ReactMarkdown>
+                </div>
               </div>
             </div>
           )}
@@ -53,9 +55,11 @@ export function AIResponse({ question, explanation, topic, timestamp }: AIRespon
           <div className="space-y-3" data-testid="section-explanation">
             <h3 className="text-lg font-semibold">Step-by-Step Explanation</h3>
             <div className="rounded-md bg-muted p-4">
-              <ReactMarkdown className="prose prose-sm max-w-none dark:prose-invert leading-relaxed">
-                {explanation.explanation}
-              </ReactMarkdown>
+              <div className="prose prose-sm max-w-none dark:prose-invert leading-relaxed">
+                <ReactMarkdown>
+                  {explanation.explanation}
+                </ReactMarkdown>
+              </div>
             </div>
           </div>
 
@@ -71,10 +75,12 @@ export function AIResponse({ question, explanation, topic, timestamp }: AIRespon
           {explanation.summary && (
             <div className="space-y-3" data-testid="section-summary">
               <h3 className="text-lg font-semibold">Key Points</h3>
-              <div className="rounded-md bg-muted p-4">
-                <ReactMarkdown className="prose prose-sm max-w-none dark:prose-invert">
-                  {explanation.summary}
-                </ReactMarkdown>
+              <div class="rounded-md bg-muted p-4">
+                <div class="prose prose-sm max-w-none dark:prose-invert">
+                  <ReactMarkdown>
+                    {explanation.summary}
+                  </ReactMarkdown>
+                </div>
               </div>
             </div>
           )}
