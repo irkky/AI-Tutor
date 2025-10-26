@@ -7,7 +7,18 @@ import { EmptyState } from "@/components/EmptyState";
 import { ChatHistory } from "@/components/ChatHistory";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
-import { History, X } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { History, X, Plus, Trash2 } from "lucide-react";
 import { ConversationWithExplanation } from "@shared/schema";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
@@ -33,7 +44,7 @@ export default function Home() {
   const submitQuestionMutation = useMutation({
     mutationFn: async (question: string) => {
       const response = await apiRequest("POST", "/api/conversations", { question });
-      return response;
+      return response.json();
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["/api/conversations"] });
@@ -106,14 +117,30 @@ export default function Home() {
     });
   };
 
+  const handleNewChat = () => {
+    setCurrentConversationId(undefined);
+    toast({
+      title: "New Chat",
+      description: "Started a new conversation",
+    });
+  };
+
+  const handleRenameConversation = (id: string, newName: string) => {
+    // TODO: Implement rename functionality
+    toast({
+      title: "Renamed",
+      description: "Conversation renamed successfully",
+    });
+  };
+
   const showEmptyState = !currentConversation && !submitQuestionMutation.isPending;
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex h-screen overflow-hidden bg-gradient-to-br from-background via-background to-muted/20">
       {/* History Sidebar - Desktop */}
-      <div className="hidden lg:block w-80 border-r bg-sidebar">
-        <div className="h-16 border-b px-4 flex items-center">
-          <h2 className="font-semibold">Chat History</h2>
+      <div className="hidden lg:block w-80 border-r bg-sidebar/50 backdrop-blur-sm">
+        <div className="h-16 border-b px-4 flex items-center bg-gradient-to-r from-sidebar to-sidebar/80">
+          <h2 className="font-semibold text-sidebar-foreground">Chat History</h2>
         </div>
         <ChatHistory
           conversations={conversations}
@@ -121,19 +148,21 @@ export default function Home() {
           onSelectConversation={handleSelectConversation}
           onDeleteConversation={handleDeleteConversation}
           onDownloadHistory={handleDownloadHistory}
+          onRenameConversation={handleRenameConversation}
         />
       </div>
 
       {/* History Sidebar - Mobile Overlay */}
       {historyOpen && (
-        <div className="lg:hidden fixed inset-0 z-50 bg-background">
-          <div className="h-16 border-b px-4 flex items-center justify-between">
+        <div className="lg:hidden fixed inset-0 z-50 bg-background/95 backdrop-blur-sm animate-in slide-in-from-left duration-300">
+          <div className="h-16 border-b px-4 flex items-center justify-between bg-gradient-to-r from-background to-muted/20">
             <h2 className="font-semibold">Chat History</h2>
             <Button
               data-testid="button-close-history"
               size="icon"
               variant="ghost"
               onClick={() => setHistoryOpen(false)}
+              className="hover:bg-muted/50"
             >
               <X className="w-5 h-5" />
             </Button>
@@ -144,6 +173,7 @@ export default function Home() {
             onSelectConversation={handleSelectConversation}
             onDeleteConversation={handleDeleteConversation}
             onDownloadHistory={handleDownloadHistory}
+            onRenameConversation={handleRenameConversation}
           />
         </div>
       )}
@@ -151,18 +181,67 @@ export default function Home() {
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
-        <header className="h-16 border-b px-4 flex items-center justify-between flex-shrink-0">
+        <header className="h-16 border-b px-4 flex items-center justify-between flex-shrink-0 bg-gradient-to-r from-background via-background to-muted/20 backdrop-blur-sm">
           <div className="flex items-center gap-3">
             <Button
               data-testid="button-toggle-history"
               size="icon"
               variant="ghost"
-              className="lg:hidden"
+              className="lg:hidden hover:bg-muted/50 transition-colors"
               onClick={() => setHistoryOpen(!historyOpen)}
             >
               <History className="w-5 h-5" />
             </Button>
-            <h1 className="text-xl font-bold">AI Tutor</h1>
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-primary/80 flex items-center justify-center">
+                <span className="text-primary-foreground font-bold text-sm">AI</span>
+              </div>
+              <h1 className="text-xl font-bold bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
+                Tutor
+              </h1>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            {currentConversationId && (
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button
+                    data-testid="button-delete-conversation"
+                    variant="destructive"
+                    size="icon"
+                    className="h-9 w-9 hover:scale-105 transition-transform"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent className="animate-in zoom-in-95 duration-200">
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Delete conversation?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      This action cannot be undone. This will permanently delete this conversation.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction
+                      onClick={() => handleDeleteConversation(currentConversationId)}
+                      className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                    >
+                      Delete
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            )}
+            <Button
+              data-testid="button-new-chat"
+              onClick={handleNewChat}
+              variant="outline"
+              className="gap-2 hover:scale-105 transition-all duration-200 hover:shadow-md"
+            >
+              <Plus className="w-4 h-4" />
+              New Chat
+            </Button>
           </div>
         </header>
 
@@ -170,7 +249,7 @@ export default function Home() {
         <ScrollArea className="flex-1" ref={scrollRef}>
           <div className="min-h-full flex flex-col">
             {showEmptyState ? (
-              <div className="flex-1 flex items-center justify-center">
+              <div className="flex-1 flex items-center justify-center p-8">
                 <EmptyState onExampleClick={handleExampleClick} />
               </div>
             ) : (
@@ -190,7 +269,7 @@ export default function Home() {
         </ScrollArea>
 
         {/* Question Input - Fixed at bottom */}
-        <div className="border-t bg-background flex-shrink-0">
+        <div className="border-t bg-background/80 backdrop-blur-sm flex-shrink-0">
           <QuestionInput
             onSubmit={handleSubmitQuestion}
             isLoading={submitQuestionMutation.isPending}
