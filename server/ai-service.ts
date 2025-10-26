@@ -75,7 +75,7 @@ Guidelines:
     console.log("Gemini API response text:", rawJson);
 
     if (!rawJson) {
-      console.error("Full response object:", JSON.stringify(response.response, null, 2));
+      console.error("Full response object:", JSON.stringify(response, null, 2));
       throw new Error("Empty response from AI model");
     }
 
