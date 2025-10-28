@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { getStorage } from '../../server/storage-instance';
-import { generateExplanation } from '../../server/ai-service';
+import { getStorage } from '@server/storage-instance';
+import { generateExplanation } from '@server/ai-service';
 import { z } from 'zod';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
