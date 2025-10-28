@@ -6,10 +6,14 @@ This folder contains Vercel serverless functions that handle all backend API req
 
 ```
 /api
-├── storage-instance.ts           # Singleton storage instance
 └── conversations/
     ├── index.ts                  # Handles: GET /api/conversations, POST /api/conversations
     └── [id].ts                   # Handles: GET /api/conversations/:id, DELETE /api/conversations/:id
+
+/server
+├── storage-instance.ts           # Singleton storage instance (shared by API routes)
+├── storage.ts                    # MemStorage class implementation
+└── ai-service.ts                 # Google Gemini AI integration
 ```
 
 ## How Vercel Routes Work
@@ -108,10 +112,10 @@ Deletes a conversation and its associated explanation.
 
 ## Storage
 
-The `storage-instance.ts` module provides a singleton instance of `MemStorage`:
+The storage singleton is located at `/server/storage-instance.ts` and provides a shared instance:
 
 ```typescript
-import { getStorage } from '../storage-instance';
+import { getStorage } from '../../server/storage-instance.js';
 
 const storage = getStorage();
 ```
