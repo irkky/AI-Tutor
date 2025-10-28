@@ -1,7 +1,7 @@
 // Using Gemini AI integration blueprint
 import { GoogleGenAI } from "@google/genai";
 // Changed from @shared/schema to relative import
-import { TOPIC_CATEGORIES, type TopicCategory } from "../shared/schema.ts";
+import { TOPIC_CATEGORIES, type TopicCategory } from "../shared/schema";
 
 // DON'T DELETE THIS COMMENT
 // Follow these instructions when using this blueprint:
