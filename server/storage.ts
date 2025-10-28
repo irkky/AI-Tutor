@@ -1,5 +1,5 @@
 // Changed from @shared/schema to relative import
-import { type Conversation, type InsertConversation, type Explanation, type InsertExplanation, type ConversationWithExplanation } from "../shared/schema.js";
+import { type Conversation, type InsertConversation, type Explanation, type InsertExplanation, type ConversationWithExplanation } from "../shared/schema";
 import { randomUUID } from "crypto";
 
 export interface IStorage {
