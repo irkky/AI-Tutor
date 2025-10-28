@@ -1,4 +1,4 @@
-import { MemStorage } from './storage';
+import { MemStorage } from './storage.js';
 
 // Singleton storage instance for serverless functions
 // This will persist across invocations within the same instance
