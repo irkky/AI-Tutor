@@ -1,7 +1,9 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { storage } from "./storage.js";
+import { getStorage } from "./storage-instance.js";
 import { generateExplanation } from "./ai-service.js";
 import { z } from "zod";
+
+const storage = getStorage();
 
 export async function handleGetAllConversations(req: VercelRequest, res: VercelResponse) {
   try {
