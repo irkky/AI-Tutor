@@ -1,6 +1,12 @@
 import 'dotenv/config';
 import express, { type Request, Response, NextFunction } from "express";
-import { registerRoutes } from "./routes.js";
+import { createServer } from 'http';
+import {
+  handleGetAllConversations,
+  handleGetConversationById,
+  handleCreateConversation,
+  handleDeleteConversation
+} from "./routes.js";
 import { setupVite, serveStatic, log } from "./vite.js";
 
 const app = express();
@@ -48,7 +54,15 @@ app.use((req, res, next) => {
 });
 
 (async () => {
-  const server = await registerRoutes(app);
+  // Register routes for local development
+  app.get("/api/conversations", (req, res) => handleGetAllConversations(req as any, res as any));
+  app.get("/api/conversations/:id", (req, res) => handleGetConversationById(req as any, res as any));
+  app.post("/api/conversations", (req, res) => handleCreateConversation(req as any, res as any));
+  app.delete("/api/conversations/:id", (req, res) => handleDeleteConversation(req as any, res as any));
+
+  const server = createServer(app);
+
+  // const server = await registerRoutes(app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
