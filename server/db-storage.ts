@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { db } from "./db.js";
-import { conversations, explanations, type InsertConversation, type InsertExplanation } from "@shared/schema.js";
+import { conversations, explanations, type InsertConversation, type InsertExplanation } from "../shared/schema.js";
 import type { IStorage } from "./storage.js";
 
 export class DbStorage implements IStorage {
