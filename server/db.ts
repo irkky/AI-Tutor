@@ -4,5 +4,9 @@ import * as schema from "../shared/schema.js";
 
 const pool = new pg.Pool({
   connectionString: `${process.env.POSTGRES_URL}?sslmode=require`,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
+
 export const db = drizzle(pool, { schema });
