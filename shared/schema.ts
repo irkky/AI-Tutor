@@ -22,6 +22,21 @@ export const explanations = pgTable("explanations", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+// Define relations
+export const conversationsRelations = relations(conversations, ({ one }) => ({
+  explanation: one(explanations, {
+    fields: [conversations.id],
+    references: [explanations.conversationId],
+  }),
+}));
+
+export const explanationsRelations = relations(explanations, ({ one }) => ({
+  conversation: one(conversations, {
+    fields: [explanations.conversationId],
+    references: [conversations.id],
+  }),
+}));
+
 export const insertConversationSchema = createInsertSchema(conversations).omit({
   id: true,
   createdAt: true,
