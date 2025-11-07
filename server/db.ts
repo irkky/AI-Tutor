@@ -3,10 +3,10 @@ import pg from "pg";
 import * as schema from "../shared/schema.js";
 
 const pool = new pg.Pool({
-  connectionString: `${process.env.POSTGRES_URL_NON_POOLING}?sslmode=require`,
+  connectionString: `${process.env.POSTGRES_URL}?sslmode=require`,
   ssl: {
     require: true,
-    rejectUnauthorized: false, // important
+    rejectUnauthorized: false,
   },
 });
 
