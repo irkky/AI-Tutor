@@ -5,7 +5,8 @@ import * as schema from "../shared/schema.js";
 const pool = new pg.Pool({
   connectionString: `${process.env.POSTGRES_URL}?sslmode=require`,
   ssl: {
-    rejectUnauthorized: false,
+    require: true,
+    rejectUnauthorized: false, // important
   },
 });
 
