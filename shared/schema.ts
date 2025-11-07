@@ -1,4 +1,4 @@
-import { sql } from "drizzle-orm";
+import { sql, relations } from "drizzle-orm";
 import { pgTable, text, varchar, timestamp, jsonb } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
@@ -21,6 +21,21 @@ export const explanations = pgTable("explanations", {
   summary: text("summary"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
+
+// Define relations
+export const conversationsRelations = relations(conversations, ({ one }) => ({
+  explanation: one(explanations, {
+    fields: [conversations.id],
+    references: [explanations.conversationId],
+  }),
+}));
+
+export const explanationsRelations = relations(explanations, ({ one }) => ({
+  conversation: one(conversations, {
+    fields: [explanations.conversationId],
+    references: [conversations.id],
+  }),
+}));
 
 export const insertConversationSchema = createInsertSchema(conversations).omit({
   id: true,
